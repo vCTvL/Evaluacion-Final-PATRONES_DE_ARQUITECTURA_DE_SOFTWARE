@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Biblioteca Santo Tomás</title>
+  <link rel="stylesheet" href="/biblioteca.css">
+  <script src="/biblioteca.js" defer></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="brand">
+      <span class="logo-circle">ST</span>
+      <div>
+        <strong>Biblioteca</strong>
+        <small>Santo Tomás</small>
+      </div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#catalogo">Catálogo</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#eventos">Eventos</a></li>
+      <li><a href="#investigacion">Investigación</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <p class="hero-pill">Campus Santo Tomás</p>
+      <h1>Gestión ágil del catálogo de libros</h1>
+      <p>Administra las obras de la biblioteca institucional desde una consola moderna, intuitiva y pensada para bibliotecarios.</p>
+    </div>
+    <div class="hero-card">
+      <h3>Resumen general</h3>
+      <div class="hero-stats">
+        <div>
+          <span id="total-libros" class="stat-number">0</span>
+          <p>Libros activos</p>
+        </div>
+        <div>
+          <span id="libros-digitales" class="stat-number">0</span>
+          <p>Formatos digitales</p>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="document.getElementById('titulo').focus()">Registrar nuevo libro</button>
+    </div>
+  </header>
+
+  <main class="content">
+    <section class="panel">
+      <h2>Registrar libro</h2>
+      <form id="form-crear" class="form-grid">
+        <div>
+          <label for="titulo">Título</label>
+          <input id="titulo" name="titulo" type="text" placeholder="Ej. Ingeniería de Software" required>
+        </div>
+        <div>
+          <label for="autor">Autor</label>
+          <input id="autor" name="autor" type="text" placeholder="Nombre del autor" required>
+        </div>
+        <div>
+          <label for="categoria">Categoría</label>
+          <input id="categoria" name="categoria" type="text" placeholder="Ej. Tecnología" required>
+        </div>
+        <div>
+          <label for="formato">Formato</label>
+          <select id="formato" name="formato" required>
+            <option value="Físico">Físico</option>
+            <option value="Digital">Digital</option>
+          </select>
+        </div>
+        <div class="full-width">
+          <label for="sinopsis">Sinopsis</label>
+          <textarea id="sinopsis" name="sinopsis" rows="3" placeholder="Breve descripción"></textarea>
+        </div>
+        <button type="submit" class="btn-primary full-width">Guardar libro</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Actualizar / Eliminar por ID</h2>
+      <div class="form-grid">
+        <div>
+          <label for="editar-id">ID del libro</label>
+          <input id="editar-id" type="number" min="1" placeholder="Ej. 2">
+        </div>
+        <div>
+          <label for="editar-titulo">Nuevo título</label>
+          <input id="editar-titulo" type="text" placeholder="Nuevo título">
+        </div>
+        <div>
+          <label for="editar-autor">Nuevo autor</label>
+          <input id="editar-autor" type="text" placeholder="Nuevo autor">
+        </div>
+        <div>
+          <label for="editar-categoria">Nueva categoría</label>
+          <input id="editar-categoria" type="text" placeholder="Nueva categoría">
+        </div>
+        <div>
+          <label for="editar-formato">Nuevo formato</label>
+          <select id="editar-formato">
+            <option value="">Sin cambios</option>
+            <option value="Físico">Físico</option>
+            <option value="Digital">Digital</option>
+          </select>
+        </div>
+      </div>
+      <div class="action-buttons">
+        <button id="btn-actualizar" class="btn-secondary">Modificar</button>
+        <button id="btn-eliminar" class="btn-danger">Eliminar</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <header class="panel-header">
+        <h2>Inventario actual</h2>
+        <input id="filtro" type="text" placeholder="Buscar por título, autor o categoría">
+      </header>
+      <table class="tabla-libros">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Categoría</th>
+            <th>Formato</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-libros">
+          <!-- Se llena con JS -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>
+      <strong>Biblioteca Santo Tomás</strong>
+      <p>Av. Universitaria 1230, Santiago | +56 2 2345 6000 | biblioteca@ust.cl</p>
+    </div>
+    <div class="footer-links">
+      <a href="#politicas">Políticas de préstamo</a>
+      <a href="#repositorio">Repositorio digital</a>
+      <a href="#soporte">Soporte bibliotecario</a>
+    </div>
+  </footer>
+</body>
+</html>

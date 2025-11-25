@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="/login.css">
+</head>
+<body>
+    <div class="usuarios-container">
+        <h1>Iniciar sesión</h1>
+        <p class="subtitle">Biblioteca Santo Tomás</p>
+        <form id="login-form" class="auth-form">
+            <input id="email" type="email" name="email" placeholder="Correo electrónico" required>
+            <input id="password" type="password" name="password" placeholder="Contraseña" required>
+            <button type="submit">Iniciar sesión</button>
+            <p id="login-error" class="error-message"></p>
+        </form>
+
+        <div style="text-align:center; margin-top:12px;">
+            <a href="/usuarios" class="link-secundario">
+                ¿No tienes cuenta? Regístrate aquí
+            </a>
+        </div>
+    </div>
+
+    <script src="/iniciarSesion.js"></script>
+</body>
+</html>

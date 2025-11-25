@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="/login.css">
+
+<div class="usuarios-container">
+    <form id="crear-usuario-form" action="/usuarios" method="post">
+        <input id="nombre" type="text" name="nombre" placeholder="Nombre" required>
+        <input id="email" type="email" name="email" placeholder="Email" required>
+        <input id="password" type="password" name="password" placeholder="Password" required>
+        <button id="button" type="submit">Crear usuario</button>
+    </form>
+
+    <h1>Lista de usuarios</h1>
+    <ul class="usuarios-lista">
+    <% usuarios.forEach(u => { %>
+        <li><%= u.nombre %></li>
+    <% }) %>
+    </ul>
+</div>
+
+<script src="/crearUsuario.js"></script>
