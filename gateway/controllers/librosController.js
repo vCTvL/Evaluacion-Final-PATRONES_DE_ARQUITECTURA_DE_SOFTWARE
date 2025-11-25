@@ -32,8 +32,11 @@ exports.crearLibro = async (req, res) => {
 
 exports.modificarLibro = async (req,res) => {
     try{
+    const { id } = req.params;
+    
     const { titulo, autor, categoria, formato, sinopsis } = req.body;
-    const response = await fetch("http://localhost:3002/modificarLibro", {
+    
+    const response = await fetch(`http://localhost:3002/modificarLibro/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({titulo, autor, categoria, formato, sinopsis })
@@ -48,3 +51,24 @@ exports.modificarLibro = async (req,res) => {
     res.status(500).json({ error: "Error al crear libro" });
     }
 }
+
+exports.eliminarLibro = async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log("ID recibido para eliminar:", id);
+        const response = await fetch(`http://localhost:3002/eliminarLibro/${id}`, {
+            method: "DELETE",
+            
+            
+
+        });
+        if (!response.ok) throw new Error("Servicio 3002 falló");
+
+        const data = await response.json();
+        res.status(200).json(data);
+    } catch (err) {
+        console.error("Error al eliminar libro:", err);
+        res.status(500).json({ error: "Error al eliminar libro" });
+    }
+
+};

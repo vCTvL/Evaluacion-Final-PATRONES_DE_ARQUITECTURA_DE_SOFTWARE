@@ -124,3 +124,89 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+// Función para modificar un libro
+async function modificarLibro() {
+    const btnActualizar = document.getElementById("btn-actualizar");
+
+    btnActualizar.addEventListener("click", async () => {
+
+        const id = document.getElementById("editar-id").value;
+        const titulo = document.getElementById("editar-titulo").value;
+        const autor = document.getElementById("editar-autor").value;
+        const categoria = document.getElementById("editar-categoria").value;
+        const formato = document.getElementById("editar-formato").value;
+
+        if (!id) {
+            alert("Debes ingresar un ID para modificar.");
+            return;
+        }
+
+        const datosActualizados = {};
+
+        if (titulo) datosActualizados.titulo = titulo;
+        if (autor) datosActualizados.autor = autor;
+        if (categoria) datosActualizados.categoria = categoria;
+        if (formato) datosActualizados.formato = formato;
+
+        try {
+            const response = await fetch(`/libros/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(datosActualizados)
+            });
+
+            if (response.ok) {
+                alert("Libro actualizado correctamente");
+                await cargarLibros();
+
+                // Limpiar campos de edición
+                document.getElementById("editar-id").value = "";
+                document.getElementById("editar-titulo").value = "";
+                document.getElementById("editar-autor").value = "";
+                document.getElementById("editar-categoria").value = "";
+                document.getElementById("editar-formato").value = "";
+            } else {
+                alert("Error al actualizar libro");
+            }
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+            alert("Error en la conexión con el servidor");
+        }
+    });
+}
+
+modificarLibro();
+
+const btnEliminar = document.getElementById("btn-eliminar");
+    btnEliminar.addEventListener("click", async () => {
+        const id = document.getElementById("editar-id").value;
+        console.log("ID a eliminar:", id);
+        if (!id) {
+            alert("Debes ingresar un ID para modificar.");
+            return;
+        }
+        try {
+            const response = await fetch(`/libros/${id}`, {
+                method: "DELETE"      
+            });
+            console.log(response);
+            if (response.ok) {
+                alert("Libro eliminado correctamente");
+                await cargarLibros();
+                // Limpiar campos de edición
+                document.getElementById("editar-id").value = "";
+                document.getElementById("editar-titulo").value = "";
+                document.getElementById("editar-autor").value = "";
+                document.getElementById("editar-categoria").value = "";
+                document.getElementById("editar-formato").value = "";
+            } else {
+                alert("Error al eliminar libro");
+            }   
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+            alert("Error en la conexión con el servidor");
+        }
+    });

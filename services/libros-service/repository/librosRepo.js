@@ -1,3 +1,4 @@
+const { eliminarLibro } = require("../controllers/librosController");
 const db = require("../database/db");
 const sql = require("mssql");
 
@@ -36,6 +37,47 @@ module.exports = {
             throw error;
         }
 
+    },
+
+
+    async modificarLibro(id, titulo, autor, categoria, formato, sinopsis) {
+    try {
+        const pool = await db.getConnection();
+        const result = await pool.request()
+            .input("id", sql.Int, id)
+            .input("titulo", sql.VarChar, titulo)
+            .input("autor", sql.VarChar, autor)
+            .input("categoria", sql.VarChar, categoria)
+            .input("formato", sql.VarChar, formato)
+            .input("sinopsis", sql.VarChar, sinopsis)
+            .query(`
+                UPDATE libros
+                SET titulo = @titulo,
+                    autor = @autor,
+                    categoria = @categoria,
+                    formato = @formato,
+                    sinopsis = @sinopsis
+                WHERE id = @id;
+            `);
+
+        return result.rowsAffected[0] > 0;
+    } catch (error) {
+        console.error("Error al modificar libro:", error.message);
+        throw error;
+    }
+},
+
+    async eliminarLibro(id) {
+        try {
+            const pool = await db.getConnection();
+            const result = await pool.request()
+                .input("id", sql.Int, id)
+                .query("DELETE FROM libros WHERE id = @id");
+            return result.rowsAffected[0] > 0;
+        } catch (error) {
+            console.error("Error al eliminar libro:", error.message);
+            throw error;
+        }
     }
 
-}
+};
