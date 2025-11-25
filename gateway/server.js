@@ -16,6 +16,10 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Importar rutas
 const usuarioRoutes = require("./routes/usuarioRoutes");
-app.use("/", usuarioRoutes);
+const librosRoutes = require("./routes/librosRoutes");
+
+
+app.use("/", usuarioRoutes, librosRoutes);
+//app.use("/libs", librosRoutes);
 
 app.listen(5003, () => console.log("Cliente web en http://localhost:5003"));
