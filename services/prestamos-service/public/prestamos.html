@@ -1,68 +1,114 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema de Préstamos de Libros</title>
-  <link rel="stylesheet" href="prestamos.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Préstamos - Biblioteca</title>
+    <link rel="stylesheet" href="prestamos.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>📚 Sistema de Préstamos de Libros</h1>
-    </header>
+    <div class="container">
+        <header>
+            <h1>📚 Sistema de Préstamos</h1>
+            <p>Gestiona los préstamos de libros de la biblioteca</p>
+        </header>
 
-    <main>
-      <!-- Formulario de Nuevo Préstamo -->
-      <section class="formulario-seccion">
-        <h2>Registrar Nuevo Préstamo</h2>
-        <form id="formPrestamo">
-          <div class="form-group">
-            <label for="libroId">ID del Libro:</label>
-            <input type="number" id="libroId" required>
-          </div>
-          <div class="form-group">
-            <label for="titulo">Título del Libro:</label>
-            <input type="text" id="titulo" required>
-          </div>
-          <div class="form-group">
-            <label for="usuario">Nombre del Usuario:</label>
-            <input type="text" id="usuario" required>
-          </div>
-          <div class="form-group">
-            <label for="fechaPresta">Fecha de Préstamo:</label>
-            <input type="date" id="fechaPresta" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Registrar Préstamo</button>
-        </form>
-      </section>
+        <div class="main-grid">
+            <!-- COLUMNA IZQUIERDA: Préstamos -->
+            <div class="left-column">
+                <!-- Sección: Prestar Libro -->
+                <section class="card">
+                    <h2>Prestar Libro</h2>
+                    <form id="formPrestar">
+                        <div class="form-group">
+                            <label for="libroId">ID del Libro:</label>
+                            <input type="number" id="libroId" name="libroId" required placeholder="Ej: 1">
+                        </div>
+                        <div class="form-group">
+                            <label for="usuarioNombre">Nombre del Usuario:</label>
+                            <input type="text" id="usuarioNombre" name="usuarioNombre" required placeholder="Ej: Juan Pérez">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Prestar Libro</button>
+                    </form>
+                </section>
 
-      <!-- Lista de Préstamos -->
-      <section class="tabla-seccion">
-        <h2>Préstamos Activos</h2>
-        <div class="controles">
-          <button class="btn btn-secondary" onclick="cargarPrestamos()">Actualizar</button>
+                <!-- Sección: Préstamos Activos -->
+                <section class="card">
+                    <h2>Préstamos Activos</h2>
+                    <div class="table-container">
+                        <table id="tablaPrestamosActivos">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Libro ID</th>
+                                    <th>Usuario</th>
+                                    <th>Fecha Préstamo</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" class="empty-message">No hay préstamos activos</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Sección: Historial Completo -->
+                <section class="card">
+                    <h2>Historial de Préstamos</h2>
+                    <div class="table-container">
+                        <table id="tablaHistorial">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Libro ID</th>
+                                    <th>Usuario</th>
+                                    <th>Fecha Préstamo</th>
+                                    <th>Fecha Devolución</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="6" class="empty-message">No hay historial de préstamos</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- COLUMNA DERECHA: Libros Disponibles -->
+            <div class="right-column">
+                <section class="card card-sticky">
+                    <h2>📖 Libros Disponibles</h2>
+                    <div class="search-box">
+                        <input type="text" id="buscarLibro" placeholder="Buscar libro por título o autor...">
+                    </div>
+                    <div class="table-container">
+                        <table id="tablaLibros">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Título</th>
+                                    <th>Autor</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="4" class="empty-message">Cargando libros...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
         </div>
-        <table id="tablaPrestamos" class="tabla">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Libro ID</th>
-              <th>Título</th>
-              <th>Usuario</th>
-              <th>Fecha Préstamo</th>
-              <th>Fecha Devolución</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="tbody">
-          </tbody>
-        </table>
-      </section>
-    </main>
-  </div>
+    </div>
 
-  <script src="prestamos.js"></script>
+    <script src="prestamos.js"></script>
 </body>
 </html>
