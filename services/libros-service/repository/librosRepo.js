@@ -1,4 +1,4 @@
-const { eliminarLibro } = require("../controllers/librosController");
+// Evitar dependencia circular: el repositorio NO debe requerir el controlador
 const db = require("../database/db");
 const sql = require("mssql");
 

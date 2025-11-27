@@ -1,6 +1,10 @@
 const path = require("path");
 
 exports.renderLogin = (req, res) => {
+    // Si ya existe sesión (req.user), redirigir según rol
+    if (req.user) {
+        return req.user.rol === 'admin' ? res.redirect('/') : res.redirect('/prestamos');
+    }
     res.sendFile(path.join(__dirname, "../views/login.html"));
 };
 
@@ -28,7 +32,8 @@ exports.crearUsuario = async (req, res) => {
 
         if (!response.ok) throw new Error("Servicio 3001 falló");
 
-        res.redirect("/usuarios");
+        // Tras crear usuario, redirigir a login
+        res.redirect("/login");
     } catch (err) {
         console.error("Error al crear usuario:", err);
         res.status(500).send("Error al crear usuario");
@@ -56,9 +61,23 @@ exports.iniciarSesion = async (req, res) => {
             return res.status(status).json({ message: data.message || "Credenciales inválidas" });
         }
 
-        res.status(200).json({ message: "Inicio de sesión exitoso" });
+        // Guardar token JWT en cookie httpOnly
+        res.cookie('authToken', data.token, {
+            httpOnly: true,
+            secure: false,
+            maxAge: 8 * 60 * 60 * 1000 // 8 horas
+        });
+
+        // Redirigir según rol: admin -> / , normal -> /prestamos
+        const redirect = data.usuario && data.usuario.rol === 'admin' ? '/' : '/prestamos';
+        return res.status(200).json({ message: 'Inicio de sesión exitoso', redirect });
     } catch (err) {
         console.error("Error al iniciar sesión:", err);
         res.status(500).json({ message: "Error al iniciar sesión" });
     }
+};
+
+exports.cerrarSesion = (req, res) => {
+    res.clearCookie('authToken');
+    res.redirect('/login');
 };

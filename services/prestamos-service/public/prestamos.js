@@ -6,9 +6,12 @@ let todosLosLibros = []; // Para el filtro de búsqueda
 
 // Cargar datos al iniciar la página
 document.addEventListener('DOMContentLoaded', () => {
-    cargarPrestamosActivos();
-    cargarHistorial();
-    cargarLibrosDisponibles();
+    // Intentar obtener usuario autenticado del gateway y rellenar el nombre
+    obtenerUsuarioActual().finally(() => {
+        cargarPrestamosActivos();
+        cargarHistorial();
+        cargarLibrosDisponibles();
+    });
     
     // Event listeners
     document.getElementById('formPrestar').addEventListener('submit', prestarLibro);
@@ -210,4 +213,27 @@ function formatearFecha(fecha) {
         month: '2-digit',
         day: '2-digit'
     });
+}
+
+// Obtener usuario autenticado desde el gateway (lee cookie httpOnly en servidor)
+async function obtenerUsuarioActual() {
+    try {
+        const resp = await fetch('http://localhost:5003/me', { credentials: 'include' });
+        if (!resp.ok) return;
+        const usuario = await resp.json();
+        const inputNombre = document.getElementById('usuarioNombre');
+        if (inputNombre) {
+            if (usuario && usuario.nombre) {
+                inputNombre.value = usuario.nombre;
+            }
+            // Si el usuario es 'normal', deshabilitar el campo para que no sea editable
+            if (usuario && usuario.rol && usuario.rol.toString().toLowerCase() === 'normal') {
+                inputNombre.disabled = true;
+            } else {
+                inputNombre.disabled = false;
+            }
+        }
+    } catch (err) {
+        console.error('No se pudo obtener usuario actual:', err);
+    }
 }

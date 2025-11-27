@@ -12,7 +12,7 @@ async function cargarLibros() {
         renderizarTabla();
         actualizarEstadisticas();
     } catch (error) {
-        console.error("Error al cargar libros:", error);
+        //console.error("Error al cargar libros:", error);
         libros = [];
         librosFiltrados = [];
         renderizarTabla();

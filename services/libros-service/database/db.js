@@ -18,7 +18,8 @@ async function getConnection() {
     if (!pool) {
         try {
             pool = await sql.connect(config);
-            console.log("Conectado a SQL Server");
+            // Mensaje solicitado: indicar conexión exitosa en mayúsculas
+            console.log("CONEXION EXITOSA DE SQL SERVER - LIBROS_SERVICE");
         } catch (error) {
             console.error("Error al conectar a la base de datos:", error.message);
             // Limpiar el pool si falla para permitir reintentos

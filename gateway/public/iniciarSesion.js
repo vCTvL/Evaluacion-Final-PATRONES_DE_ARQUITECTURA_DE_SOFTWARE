@@ -27,7 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await response.json().catch(() => ({}));
 
             if (response.ok) {
-                window.location.href = "/";
+                // El servidor devuelve la URL de redirección según el rol
+                window.location.href = data.redirect || "/";
             } else if (errorBox) {
                 errorBox.textContent = data.message || "Credenciales inválidas";
                 errorBox.classList.add("visible");

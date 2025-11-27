@@ -1,20 +1,14 @@
 const express = require("express");
-const path = require("path");
 const router = express.Router();
 const usuariosController = require("../controllers/usuariosController");
 
-// Ruta para mostrar la página principal
-router.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../views/index.html"));
-});
-
+// Rutas públicas: login, crear usuario, logout
 router.get("/login", usuariosController.renderLogin);
 router.post("/login", usuariosController.iniciarSesion);
+router.get("/logout", usuariosController.cerrarSesion);
 
-// Ruta para mostrar usuarios con EJS
+// Registro y listado (página de registro/usuarios)
 router.get("/usuarios", usuariosController.mostrarUsuarios);
-
-// Manejar creación de usuarios desde el formulario o fetch del cliente
 router.post("/usuarios", usuariosController.crearUsuario);
 
 module.exports = router;

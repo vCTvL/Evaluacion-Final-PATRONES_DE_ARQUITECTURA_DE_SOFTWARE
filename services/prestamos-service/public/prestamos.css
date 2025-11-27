@@ -4,9 +4,15 @@
     box-sizing: border-box;
 }
 
+:root {
+    color: #eaf4ea;
+    background-color: #0f1f17;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: radial-gradient(circle at top, #1c3b2b, #0f1f17 55%);
+    color: #eaf4ea;
     min-height: 100vh;
     padding: 20px;
 }
@@ -18,19 +24,19 @@ body {
 
 header {
     text-align: center;
-    color: white;
+    color: #9ef3b6;
     margin-bottom: 30px;
 }
 
 header h1 {
     font-size: 2.5rem;
     margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    text-shadow: 0 6px 18px rgba(7,15,11,0.6);
 }
 
 header p {
     font-size: 1.1rem;
-    opacity: 0.9;
+    color: #a8f2c1;
 }
 
 /* Grid de dos columnas */
@@ -57,17 +63,18 @@ header p {
 }
 
 .card {
-    background: white;
+    background: linear-gradient(160deg, rgba(33,71,51,0.85), rgba(12,30,22,0.9));
     border-radius: 12px;
     padding: 25px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 60px rgba(7,15,11,0.55);
+    border: 1px solid rgba(75,150,108,0.2);
 }
 
 .card h2 {
-    color: #333;
+    color: #9ef3b6;
     margin-bottom: 20px;
     font-size: 1.5rem;
-    border-bottom: 3px solid #667eea;
+    border-bottom: 3px solid rgba(115,209,160,0.18);
     padding-bottom: 10px;
 }
 
@@ -79,14 +86,17 @@ header p {
 .search-box input {
     width: 100%;
     padding: 10px;
-    border: 2px solid #e0e0e0;
-    border-radius: 6px;
+    border: 1px solid rgba(128,204,162,0.18);
+    border-radius: 8px;
     font-size: 1rem;
+    background: rgba(16,34,24,0.6);
+    color: #eaf4ea;
 }
 
 .search-box input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #69d48f;
+    box-shadow: 0 0 0 4px rgba(105,212,143,0.08);
 }
 
 /* Formulario */
@@ -97,55 +107,59 @@ header p {
 .form-group label {
     display: block;
     margin-bottom: 5px;
-    color: #555;
+    color: #a8f2c1;
     font-weight: 600;
 }
 
 .form-group input {
     width: 100%;
     padding: 10px;
-    border: 2px solid #e0e0e0;
-    border-radius: 6px;
+    border: 1px solid rgba(128,204,162,0.14);
+    border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.3s;
+    background: rgba(16,34,24,0.6);
+    color: #eaf4ea;
 }
 
 .form-group input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #69d48f;
+    box-shadow: 0 0 0 4px rgba(105,212,143,0.06);
 }
 
 /* Botones */
 .btn {
     padding: 12px 24px;
     border: none;
-    border-radius: 6px;
+    border-radius: 12px;
     font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.25s;
     font-weight: 600;
 }
 
 .btn-primary {
-    background: #667eea;
-    color: white;
+    background: linear-gradient(120deg, #38a364, #6be694);
+    border: none;
+    color: #0a1a12;
 }
 
 .btn-primary:hover {
-    background: #5568d3;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 10px 30px rgba(9,24,16,0.45);
 }
 
 .btn-danger {
-    background: #ef4444;
-    color: white;
+    background: rgba(180,63,63,0.85);
+    color: #fff;
     padding: 8px 16px;
     font-size: 0.9rem;
+    border-radius: 10px;
 }
 
 .btn-danger:hover {
-    background: #dc2626;
+    background: rgba(180,63,63,0.95);
 }
 
 /* Tablas */
@@ -162,7 +176,7 @@ table {
 }
 
 thead {
-    background: #f8f9fa;
+    background: rgba(11,25,18,0.85);
     position: sticky;
     top: 0;
     z-index: 10;
@@ -172,22 +186,23 @@ th {
     padding: 12px;
     text-align: left;
     font-weight: 600;
-    color: #333;
-    border-bottom: 2px solid #667eea;
+    color: #d9ffe5;
+    border-bottom: 2px solid rgba(91,173,131,0.18);
 }
 
 td {
     padding: 12px;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid rgba(69,136,97,0.12);
+    color: #eaf4ea;
 }
 
-tbody tr:hover {
-    background: #f8f9fa;
+tbody tr:hover td {
+    background: rgba(88,160,117,0.04);
 }
 
 .empty-message {
     text-align: center;
-    color: #999;
+    color: #a8f2c1;
     font-style: italic;
     padding: 20px !important;
 }

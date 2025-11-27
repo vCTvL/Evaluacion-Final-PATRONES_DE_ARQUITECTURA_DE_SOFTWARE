@@ -1,43 +1,35 @@
 const db = require("../database/db");
 const sql = require("mssql");
-
-// Datos de respaldo cuando la base de datos no está disponible
-const usuariosBackup = [
-    { id: 1, nombre: "Lucía" },
-    { id: 2, nombre: "Juan" },
-    { id: 3, nombre: "Maria" },
-    { id: 4, nombre: "Pedro" },
-    { id: 5, nombre: "Ana" },
-    { id: 6, nombre: "Luis" },
-    { id: 7, nombre: "Carlos" },
-    { id: 8, nombre: "Sofia" },
-    { id: 9, nombre: "Diego" },
-    { id: 10, nombre: "Laura" }
-];
+const bcrypt = require("bcrypt");
 
 module.exports = {
     async obtenerUsuarios() {
         try {
-            const usuarios = await db.query("SELECT * FROM usuarios");
+            const usuarios = await db.query("SELECT id, nombre, email, rol FROM usuarios");
             return usuarios;
         } catch (error) {
             console.error("Error al obtener usuarios:", error.message);
-            console.log("Usando datos de respaldo (base de datos no disponible)");
-            return usuariosBackup;
+            return [];
         }
     },
 
     async crearUsuario(nombre, email, password) {
         try {
+            // Hashear contraseña con bcrypt (salt automático)
+            const hashedPassword = await bcrypt.hash(password, 10);
             const pool = await db.getConnection();
+
+            // Asignar rol en función del nombre: si nombre === 'admin' => 'admin', else 'normal'
+            const rol = (typeof nombre === 'string' && nombre.trim().toLowerCase() === 'admin') ? 'admin' : 'normal';
 
             const result = await pool.request()
                 .input("nombre", sql.VarChar, nombre)
                 .input("email", sql.VarChar, email)
-                .input("password", sql.VarChar, password)
+                .input("password", sql.VarChar, hashedPassword)
+                .input("rol", sql.VarChar, rol)
                 .query(`
-                    INSERT INTO usuarios (nombre, email, password)
-                    VALUES (@nombre, @email, @password);
+                    INSERT INTO usuarios (nombre, email, password, rol)
+                    VALUES (@nombre, @email, @password, @rol);
 
                     SELECT SCOPE_IDENTITY() AS id;
                 `);
@@ -45,18 +37,7 @@ module.exports = {
             return result.recordset[0];
         } catch (error) {
             console.error("Error al crear usuario:", error.message);
-
-            // Fallback local cuando la base de datos no está disponible
-            const nuevoUsuario = {
-                id: usuariosBackup.length + 1,
-                nombre,
-                email,
-                password
-            };
-
-            usuariosBackup.push(nuevoUsuario);
-            console.log("Usuario almacenado temporalmente en memoria");
-            return nuevoUsuario;
+            throw error;
         }
     },
 
@@ -65,21 +46,28 @@ module.exports = {
             const pool = await db.getConnection();
             const result = await pool.request()
                 .input("email", sql.VarChar, email)
-                .input("password", sql.VarChar, password)
                 .query(`
-                    SELECT TOP 1 id, nombre, email
+                    SELECT id, nombre, email, password, rol
                     FROM usuarios
-                    WHERE email = @email AND password = @password
+                    WHERE email = @email
                 `);
 
-            return result.recordset[0] || null;
+            const usuario = result.recordset[0];
+            if (!usuario) return null;
+
+            // Comparar contraseña con bcrypt
+            const match = await bcrypt.compare(password, usuario.password);
+            if (!match) return null;
+
+            return {
+                id: usuario.id,
+                nombre: usuario.nombre,
+                email: usuario.email,
+                rol: usuario.rol
+            };
         } catch (error) {
             console.error("Error al obtener usuario:", error.message);
-
-            // Fallback local en caso de que la base de datos no esté disponible
-            return usuariosBackup.find(
-                (u) => u.email === email && u.password === password
-            ) || null;
+            return null;
         }
     }
 };
