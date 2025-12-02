@@ -2,19 +2,13 @@ const sql = require('mssql');
 
 // Configuración de conexión a SQL Server
 const config = {
-    user: 'node_user',          // Cambiar por tu usuario de SQL Server
-    password: '123456',    // Cambiar por tu contraseña
-    server: 'localhost',          // O tu servidor (ej: 'localhost\\SQLEXPRESS')
-    database: 'libros_db',        // Nombre de tu base de datos
+    user: "useradmin",
+    password: "admin123.",
+    database: "libros_db",
+    server: "feriaserver.database.windows.net",
     options: {
-        encrypt: false,           // true si usas Azure
-        trustServerCertificate: true,
-        enableArithAbort: true
-    },
-    pool: {
-        max: 10,
-        min: 0,
-        idleTimeoutMillis: 30000
+        encrypt: true,
+        trustServerCertificate: false
     }
 };
 

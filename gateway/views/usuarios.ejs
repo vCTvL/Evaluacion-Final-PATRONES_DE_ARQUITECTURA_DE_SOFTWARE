@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/login.css">
+<link rel="stylesheet" href="/crearUsuario.css">
 
 <div class="usuarios-container">
     <form id="crear-usuario-form" action="/usuarios" method="post">
@@ -6,6 +6,7 @@
         <input id="email" type="email" name="email" placeholder="Email" required>
         <input id="password" type="password" name="password" placeholder="Password" required>
         <button id="button" type="submit">Crear usuario</button>
+        <button id="btn-ir-login" type="button" onclick="location.href='/login'">Ir a Login</button>
     </form>
 
     <h1>Lista de usuarios</h1>

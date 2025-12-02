@@ -1,17 +1,15 @@
 const sql = require("mssql");
 
 const config = {
-    user: "node_user",
-    password: "123456",
+    user: "useradmin",
+    password: "admin123.",
     database: "usuarios_db",
-    server: "localhost",
+    server: "feriaserver.database.windows.net",
     options: {
-        encrypt: false,
-        trustServerCertificate: true,
-        enableArithAbort: true
+        encrypt: true,
+        trustServerCertificate: false
     }
 };
-
 let pool = null;
 
 async function getConnection() {

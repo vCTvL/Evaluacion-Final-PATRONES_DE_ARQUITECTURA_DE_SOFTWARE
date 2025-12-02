@@ -1,14 +1,13 @@
 const sql = require("mssql");
 
 const config = {
-    user: "node_user",
-    password: "123456",
+    user: "useradmin",
+    password: "admin123.",
     database: "libros_db",
-    server: "localhost",
+    server: "feriaserver.database.windows.net",
     options: {
-        encrypt: false,
-        trustServerCertificate: true,
-        enableArithAbort: true
+        encrypt: true,
+        trustServerCertificate: false
     }
 };
 
