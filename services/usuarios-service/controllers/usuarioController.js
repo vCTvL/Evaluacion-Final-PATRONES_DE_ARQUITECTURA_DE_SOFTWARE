@@ -1,5 +1,6 @@
 const repo = require("../repository/usuariosRepo");
 const jwt = require("jsonwebtoken");
+const amqpClient = require('../../../service-bus/amqpClient.js')
 
 const SECRET_KEY = "tu_clave_secreta_super_segura_2024";
 
@@ -16,7 +17,23 @@ exports.crearUsuario = async (req, res) => {
             return res.status(400).json({ message: "Nombre, email y contraseña son obligatorios" });
         }
 
-        await repo.crearUsuario(nombre, email, password);
+        const nuevoUsuario = await repo.crearUsuario(nombre, email, password);
+        
+        // ============ BROKER: PUBLICAR EVENTO ============
+        try {
+            await amqpClient.publish('usuario.created', {
+                id: nuevoUsuario.id,
+                nombre: nuevoUsuario.nombre,
+                email: nuevoUsuario.email,
+                rol: nuevoUsuario.rol,
+                timestamp: new Date().toISOString()
+            });
+            console.log(`📤 EVENTO PUBLICADO: usuario.created (${nombre})`);
+        } catch (err) {
+            console.warn(`⚠️  Error publicando evento: ${err.message}`);
+        }
+        // ================================================
+        
         res.status(201).json({ message: "Usuario creado correctamente" });
     } catch (error) {
         console.error("Error al crear usuario:", error);

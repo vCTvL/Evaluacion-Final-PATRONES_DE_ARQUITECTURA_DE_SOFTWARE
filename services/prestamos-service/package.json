@@ -7,10 +7,15 @@
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
-  "keywords": ["prestamos", "libros", "microservicio"],
+  "keywords": [
+    "prestamos",
+    "libros",
+    "microservicio"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.10.9",
     "express": "^4.18.2"
   },
   "devDependencies": {

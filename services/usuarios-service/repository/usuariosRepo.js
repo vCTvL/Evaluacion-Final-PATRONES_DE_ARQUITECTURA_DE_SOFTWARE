@@ -31,10 +31,16 @@ module.exports = {
                     INSERT INTO usuarios (nombre, email, password, rol)
                     VALUES (@nombre, @email, @password, @rol);
 
-                    SELECT SCOPE_IDENTITY() AS id;
+                    SELECT SCOPE_IDENTITY() AS id, @nombre AS nombre, @email AS email, @rol AS rol;
                 `);
 
-            return result.recordset[0];
+            // Retornar objeto con id, nombre, email y rol para que el evento incluya todos los datos
+            return {
+                id: result.recordset[0].id,
+                nombre: nombre,
+                email: email,
+                rol: rol
+            };
         } catch (error) {
             console.error("Error al crear usuario:", error.message);
             throw error;

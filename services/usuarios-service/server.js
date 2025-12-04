@@ -10,5 +10,17 @@ app.use(express.urlencoded({ extended: true }));
 const usuarioRoutes = require("./routes/usuarioRoutes");
 app.use("/", usuarioRoutes);
 
+// ============ BROKER PATTERN: PUBLISHER ============
+const amqpClient = require('../../service-bus/amqpClient');
+
+(async () => {
+    try {
+        await amqpClient.connect();
+        console.log('✓ Publisher conectado al Broker (RabbitMQ)');
+    } catch (err) {
+        console.warn('⚠️  No se pudo conectar al Broker:', err.message);
+    }
+})();
+// ===============================================
 
 app.listen(3001, () => console.log("SOA Usuarios en http://localhost:3001"));
